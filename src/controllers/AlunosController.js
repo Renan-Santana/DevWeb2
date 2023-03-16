@@ -6,9 +6,9 @@ class AlunosController {
 
   async inserirAluno(req, res) {
     const aluno = req.body;
-    console.log(aluno.nome);
-    const alunoInserido = await inserirAluno(aluno);
-    res.end(JSON.stringify(aluno));
+    console.log(aluno);
+    //const alunoInserido = await inserirAluno(aluno);
+    //res.end(JSON.stringify(aluno));
   }
 
   async excluirAluno(req, res) {

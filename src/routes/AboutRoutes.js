@@ -11,16 +11,8 @@ const getPath = () => {
   return path;
 }
 
-roteador.get("/", async function (req, res) {
-  res.sendFile(`${getPath()}/views/index.html`);
-});
-
 roteador.get("/about", async function (req, res) {
   res.sendFile(`${getPath()}/views/about.html`);
-});
-
-roteador.get("*", async function (req, res) {
-  res.sendFile(`${getPath()}/views/notfound.html`);
 });
 
 module.exports = roteador;

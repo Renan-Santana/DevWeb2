@@ -5,6 +5,7 @@ require("dotenv").config({
 const express = require("express");
 const roteadorAlunos = require("./routes/AlunosRoutes");
 const roteadorStatic = require("./routes/StaticRoutes");
+const roteadorAbout = require("./routes/AboutRoutes");
 
 const port = process.env.PORT;
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use("/public", express.static(`${__dirname}/public`));
 app.use(roteadorAlunos);
 app.use(roteadorStatic);
+app.use(roteadorAbout);
 
 app.listen(port, function () {
   console.log(`Servidor funcionando na porta ${port}`);

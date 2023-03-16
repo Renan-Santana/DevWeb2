@@ -17,7 +17,7 @@ const getPath = () => {
 roteador.get("/alunos", async function (req, res) {
   const alunos = await getAll();
   console.log(alunos);
-  res.sendFile(`${getPath()}/views/index.html`);
+  res.sendFile(`${getPath()}/views/user.html`);
 });
 
 roteador.post("/aluno", AlunosController.inserirAluno);
