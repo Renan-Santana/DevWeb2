@@ -1,6 +1,4 @@
 const { Router } = require("express");
-const getAll = require("../services/getAll");
-const inserirAluno = require("../services/AlunosServices/inserirAluno");
 const AlunosController = require("../controllers/AlunosController");
 
 const roteador = Router();
@@ -12,16 +10,16 @@ const getPath = () => {
     path = path + paths[i] + "\\";
   }
   return path;
-}
+};
 
 roteador.get("/alunos", async function (req, res) {
-  const alunos = await getAll();
-  console.log(alunos);
   res.sendFile(`${getPath()}/views/user.html`);
 });
 
 roteador.post("/aluno", AlunosController.inserirAluno);
 
 roteador.delete("/aluno", AlunosController.excluirAluno);
+
+roteador.put("/aluno/:id", AlunosController.atualizarAluno);
 
 module.exports = roteador;

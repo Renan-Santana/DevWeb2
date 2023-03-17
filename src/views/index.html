@@ -1,36 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Página Principal</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                <img src="https://github.com/Renan-Santana.png" alt=""
-                    style="height: 56px; width: 56px; border-radius: 5px;">
-                <span class="fs-4" style="margin-left: 50px">Desenvolvimento Web II</span>
-            </a>
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="/alunos" class="nav-link">User</a></li>
-                <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
-            </ul>
-        </header>
-
+      <header
+        class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
+      >
+        <a
+          href="/"
+          class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+        >
+          <img
+            src="https://github.com/Renan-Santana.png"
+            alt=""
+            style="height: 56px; width: 56px; border-radius: 5px"
+          />
+          <span class="fs-4" style="margin-left: 50px"
+            >Desenvolvimento Web II</span
+          >
+        </a>
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a href="/" class="nav-link active" aria-current="page">Home</a>
+          </li>
+          <li class="nav-item"><a href="/alunos" class="nav-link">User</a></li>
+          <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+        </ul>
+      </header>
+      <table class="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Grau</th>
+            <th scope="col">Ativo</th>
+            <th scope="col">Acão</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{TABLE_DATA}}
+        </tbody>
+      </table>
+      <form id="form-user" action="/aluno" method="PUT" style="display: none">
+        <legend id="legenda">Edite o aluno</legend>
+        <input type="hidden" id="id" name="id" />
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            class="form-control"
+            placeholder="Digite o nome do usuário..."
+          />
+        </div>
+        <div class="mb-3">
+          <label for="grau" class="form-label">Nível Acadêmico</label>
+          <select id="grau" name="grau" class="form-select">
+            <option>Graduação</option>
+            <option>Pós Graduação</option>
+            <option>Mestrado</option>
+            <option>Doutorado</option>
+            <option>PhD</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="ativo"
+              name="ativo"
+            />
+            <label class="form-check-label" for="ativo"> Ativo ? </label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+      </form>
+      <footer class="py-3 my-4">
+        <p class="text-center text-muted">&copy; 2023 DevWebII, Inc</p>
+      </footer>
     </div>
-    <div class="container">
-        <footer class="py-3 my-4">
-            <p class="text-center text-muted">&copy; 2023 DevWebII, Inc</p>
-        </footer>
-    </div>
-</body>
+    <script>
+      function deleteAluno(id) {
+        const data = {
+          id: id,
+        };
 
+        fetch("/aluno", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            if (response.redirected) {
+              window.location.replace(response.url);
+            } else {
+              return response.json();
+            }
+          })
+          .catch((error) => console.error(error));
+      }
+
+      function updateAluno(botao) {
+        var linha = botao.parentNode.parentNode;
+
+        var id = linha.cells[0].textContent;
+        var nome = linha.cells[1].textContent;
+        var grau = linha.cells[2].textContent;
+        var ativo = linha.cells[3].children[0].checked;
+
+        document.getElementById("id").value = id;
+        document.getElementById("nome").value = nome;
+        document.getElementById("grau").value = grau;
+        document.getElementById("ativo").checked = ativo;
+        document.getElementById(
+          "legenda"
+        ).textContent = `Edite o aluno - ${nome}`;
+
+        document.getElementById("form-user").style.display = "block";
+      }
+
+      document
+        .getElementById("form-user")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const form = document.getElementById("form-user");
+          const data = {
+            nome: form.elements.nome.value,
+            grau: form.elements.grau.value,
+            ativo: form.elements.ativo.checked,
+          };
+
+          fetch(form.action + "/" + form.elements.id.value, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => {
+              if (response.redirected) {
+                window.location.replace(response.url);
+              } else {
+                return response.json();
+              }
+            })
+            .catch((error) => console.error(error));
+        });
+    </script>
+  </body>
 </html>
