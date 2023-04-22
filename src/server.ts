@@ -9,10 +9,8 @@ dotenv.config({
   path: process.env.NODE_ENV === "dev" ? ".env.dev" : ".env",
 });
 
-const port: number = Number(2000);
+const port: number = Number(process.env.PORT || 2000);
 const app: express.Application = express();
-
-console.log(process.env.PORT);
 
 app.use(express.json());
 app.use("/public", express.static(`${__dirname}/public`));
