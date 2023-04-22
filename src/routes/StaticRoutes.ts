@@ -1,4 +1,5 @@
 const { Router } = require("express");
+import { Request, Response } from 'express';
 const getAll = require("../services/getAll");
 const axios = require("axios");
 const fs = require("fs");
@@ -6,17 +7,17 @@ const fs = require("fs");
 const roteador = Router();
 
 const getPath = () => {
-  const paths = __dirname.split("\\");
+  const paths = __dirname.split("/");
   let path = "";
   for (let i = 0; i < paths.length - 1; i++) {
-    path = path + paths[i] + "\\";
+    path = path + paths[i] + "/";
   }
   return path;
 };
 
-roteador.get("/", async function (req, res) {
-  let htmlString = "";
-  fs.readFile(`${getPath()}views\\index.html`, "utf8", (err, data) => {
+roteador.get("/", async function (req : Request, res : Response) {
+  let htmlString: String = "";
+  fs.readFile(`${getPath()}views/index.html`, "utf8", (err : Error, data : String) => {
     if (err) {
       console.error(err);
     } else {
@@ -26,7 +27,7 @@ roteador.get("/", async function (req, res) {
 
   const alunos = await getAll();
   let table_data = "";
-  alunos.forEach((element) => {
+  alunos.forEach((element: { id: any; nome: any; grau: any; ativo: number; }) => {
     table_data += `<tr>
     <td>${element.id}</td>
     <td>${element.nome}</td>
@@ -44,11 +45,11 @@ roteador.get("/", async function (req, res) {
   res.send(htmlString.replace("{{TABLE_DATA}}", table_data));
 });
 
-roteador.get("/about", async function (req, res) {
+roteador.get("/about", async function (req: any, res: { sendFile: (arg0: string) => void; }) {
   res.sendFile(`${getPath()}/views/about.html`);
 });
 
-roteador.get("*", async function (req, res) {
+roteador.get("*", async function (req: any, res: { sendFile: (arg0: string) => void; }) {
   res.sendFile(`${getPath()}/views/notfound.html`);
 });
 

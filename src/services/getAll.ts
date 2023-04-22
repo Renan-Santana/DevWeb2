@@ -1,9 +1,11 @@
+import { Database } from "sqlite";
+
 const openDB = require("../database/sqlite");
 
-async function getAll() {
+async function getAll(): Promise<any[]> {
   try {
-    var rows = [];
-    const db = await openDB();
+    var rows: any[] = [];
+    const db: Database = await openDB();
     await db.each(
       "SELECT id, nome, grau, ativo FROM alunos",
       function (err, row) {
@@ -16,6 +18,7 @@ async function getAll() {
     return rows;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 

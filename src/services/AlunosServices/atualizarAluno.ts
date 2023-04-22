@@ -1,6 +1,6 @@
-const execQuery = require("../execQuery");
+import { execQuery } from "../execQuery";
 
-async function deletarAluno(id, aluno) {
+async function atualizarAluno(id: number, aluno: { nome: any; grau: any; ativo: any; }): Promise<void> {
   try {
     const resultado = await execQuery(
       `update alunos SET 
@@ -14,4 +14,4 @@ async function deletarAluno(id, aluno) {
   }
 }
 
-module.exports = deletarAluno;
+module.exports = atualizarAluno;

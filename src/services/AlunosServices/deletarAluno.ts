@@ -1,6 +1,6 @@
-const execQuery = require("../execQuery");
+import { execQuery } from "../execQuery";
 
-async function deletarAluno(aluno) {
+async function deletarAluno(aluno: { id: any; }) {
   try {
     const resultado = await execQuery(
       `DELETE FROM alunos WHERE alunos.id = '${aluno.id}'`
